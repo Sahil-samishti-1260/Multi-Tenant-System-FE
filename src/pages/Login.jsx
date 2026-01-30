@@ -49,6 +49,7 @@ export default function Login() {
       if (res.token) {
         localStorage.setItem("token", res.token);
         localStorage.setItem("tenant_id", res.user.tenant_id);
+        localStorage.setItem("company_slug", selectedSlug);
         alert(`Login successful for ${res.user.username}!`);
         navigate("/dashboard");
       } else {

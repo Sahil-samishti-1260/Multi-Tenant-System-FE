@@ -18,3 +18,20 @@ export const login = async (slug, credentials) => {
   return res.json();
 };
 
+export const getTopCustomers = async (slug, token) => {
+  const res = await fetch(`${API_BASE}/tenant-data/top-customers?company=${slug}`, {
+    headers: {
+      "Authorization": `Bearer ${token}`
+    }
+  });
+  return res.json();
+};
+
+export const getTopProducts = async (slug, token) => {
+  const res = await fetch(`${API_BASE}/tenant-data/top-products?company=${slug}`, {
+    headers: {
+      "Authorization": `Bearer ${token}`
+    }
+  });
+  return res.json();
+};
