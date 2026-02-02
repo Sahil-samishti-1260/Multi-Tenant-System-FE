@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { getTenants, login } from "../services/api";
+import { getCompanies, login } from "../services/api";
 
 export default function Login() {
   const navigate = useNavigate();
-  const [tenants, setTenants] = useState([]);
+  const [companies, setCompanies] = useState([]);
   const [selectedSlug, setSelectedSlug] = useState("");
   const [showLoginForm, setShowLoginForm] = useState(false);
   const [form, setForm] = useState({ email: "", password: "" });
@@ -12,14 +12,22 @@ export default function Login() {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    getTenants()
+    getCompanies()
       .then(data => {
-        if (Array.isArray(data)) setTenants(data);
+        if (Array.isArray(data)) setCompanies(data);
       })
-      .catch(err => console.error("Failed to fetch tenants:", err));
-  }, []);
+      .catch(err => console.error("Failed to fetch companies:", err));
 
-  const handleTenantSelect = (e) => {
+    // Auto-redirect if already logged in
+    const token = localStorage.getItem("token");
+    const slug = localStorage.getItem("company_slug");
+    if (token && slug) {
+      console.log("[Login] Valid session found. Redirecting to dashboard.");
+      navigate("/dashboard");
+    }
+  }, [navigate]);
+
+  const handleCompanySelect = (e) => {
     const slug = e.target.value;
     setSelectedSlug(slug);
     setError("");
@@ -41,14 +49,14 @@ export default function Login() {
     setError("");
     setLoading(true);
     console.log(`[Frontend] Attempting login for company: ${selectedSlug}`);
-    console.log(`[Frontend] This will trigger backend 'resolveCompany' middleware to fetch Tenant ID and Connection String.`);
+    console.log(`[Frontend] This will trigger backend 'resolveCompany' middleware to fetch Company ID and Connection String.`);
 
     try {
       const res = await login(selectedSlug, form);
 
       if (res.token) {
         localStorage.setItem("token", res.token);
-        localStorage.setItem("tenant_id", res.user.tenant_id);
+        localStorage.setItem("company_id", res.user.company_id);
         localStorage.setItem("company_slug", selectedSlug);
         alert(`Login successful for ${res.user.username}!`);
         navigate("/dashboard");
@@ -72,13 +80,13 @@ export default function Login() {
           <div className="flex gap-2 items-center">
             <select
               value={selectedSlug}
-              onChange={handleTenantSelect}
+              onChange={handleCompanySelect}
               className="flex-1 p-3 rounded-md border border-gray-300 text-base focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
               <option value="">-- Choose Company --</option>
-              {tenants.map((t) => (
-                <option key={t.tenant_id} value={t.slug}>
-                  {t.tenant_name}
+              {companies.map((company) => (
+                <option key={company.tenant_id} value={company.slug}>
+                  {company.tenant_name}
                 </option>
               ))}
             </select>

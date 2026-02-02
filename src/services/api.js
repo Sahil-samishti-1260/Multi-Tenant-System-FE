@@ -1,7 +1,7 @@
 // src/services/api.js
 const API_BASE = "http://localhost:5000/api";
 
-export const getTenants = async () => {
+export const getCompanies = async () => {
   const res = await fetch(`${API_BASE}/companies`);
   return res.json();
 };
@@ -19,7 +19,7 @@ export const login = async (slug, credentials) => {
 };
 
 export const getTopCustomers = async (slug, token) => {
-  const res = await fetch(`${API_BASE}/tenant-data/top-customers?company=${slug}`, {
+  const res = await fetch(`${API_BASE}/company-data/top-customers?company=${slug}`, {
     headers: {
       "Authorization": `Bearer ${token}`
     }
@@ -28,7 +28,7 @@ export const getTopCustomers = async (slug, token) => {
 };
 
 export const getTopProducts = async (slug, token) => {
-  const res = await fetch(`${API_BASE}/tenant-data/top-products?company=${slug}`, {
+  const res = await fetch(`${API_BASE}/company-data/top-products?company=${slug}`, {
     headers: {
       "Authorization": `Bearer ${token}`
     }

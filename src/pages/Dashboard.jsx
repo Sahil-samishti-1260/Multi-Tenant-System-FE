@@ -4,7 +4,7 @@ import { getTopCustomers, getTopProducts } from '../services/api';
 
 const Dashboard = () => {
   const navigate = useNavigate();
-  const tenantId = localStorage.getItem('tenant_id');
+  const companyId = localStorage.getItem('company_id');
   const token = localStorage.getItem('token');
   const slug = localStorage.getItem('company_slug');
 
@@ -106,8 +106,8 @@ const Dashboard = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
           <div className="bg-blue-50 p-4 rounded-xl border border-blue-100 shadow-sm">
-            <p className="text-xs uppercase text-blue-600 font-bold mb-1">Tenant ID</p>
-            <p className="text-lg font-mono font-semibold text-blue-900">{tenantId}</p>
+            <p className="text-xs uppercase text-blue-600 font-bold mb-1">Company ID</p>
+            <p className="text-lg font-mono font-semibold text-blue-900">{companyId}</p>
           </div>
           <div className="bg-emerald-50 p-4 rounded-xl border border-emerald-100 shadow-sm">
             <p className="text-xs uppercase text-emerald-600 font-bold mb-1">Company Slug</p>
