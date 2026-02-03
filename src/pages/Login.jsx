@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { getCompanies, login } from "../services/api";
-
+import { getTenants, login } from "../services/api";
+///////////////////////////////////////////////////
 export default function Login() {
   const navigate = useNavigate();
   const [companies, setCompanies] = useState([]);
